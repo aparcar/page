@@ -1,0 +1,6 @@
+{{ define "main" }}
+  <h1>Devices</h1>
+  {{ range $device, $data := .Site.Data.devices }}
+  <p><a href="{{ $device }}/">{{ .vendor }} {{ .model }} {{ .variant}}</a></p>
+  {{ end }}
+{{ end }}

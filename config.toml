@@ -1,0 +1,3 @@
+baseURL = "https://aparcar.github.io/devices/"
+languageCode = "en-us"
+title = "OpenWrt Devices"

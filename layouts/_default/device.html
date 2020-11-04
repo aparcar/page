@@ -1,0 +1,118 @@
+{{ define "title" }}
+{{ .Title }} &ndash; {{ .Site.Title }}
+{{ end }}
+
+{{ define "main" }}
+{{ $device := index .Site.Data.devices .Page.BaseFileName }}
+<table class="table">
+	<tbody>
+		<tr>
+			<th colspan="2">{{ $device.vendor}} {{ $device.model }} {{ $device.version }}</th>
+		</tr>
+		<td colspan="2">
+			<img style="height: 400px" class="img-fluid" src="/images/devices/{{ .File.BaseFileName }}.jpg" />
+		</td>
+		<tr>
+			<th scope="row">Device Type</th>
+			<td>{{ $device.device_type }}</td>
+		</tr>
+		<tr>
+			<th scope="row">Target</th>
+			<td>
+				{{ if $device.target }}
+				{{ delimit $device.target ", " }}
+				{{ end }}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row">Vendor</th>
+			<td>{{ $device.vendor }}</td>
+		</tr>
+		<tr>
+			<th scope="row">Model</th>
+			<td>{{ $device.model }}</td>
+		</tr>
+		<tr>
+			<th scope="row">CPU</th>
+			<td>
+				{{ $device.cpu.model | default "unknown model" }}</br>
+				{{ $device.cpu.cores }} x {{ $device.cpu.mhz }}MHz
+			</td>
+		</tr>
+		<tr>
+			<th scope="row">RAM</th>
+			<td>
+				{{ delimit ($device.memory_mb | default "unknown") ", " " or " }}MB
+				{{ if lt $device.memory_mb .Site.Params.min_memory }}
+				<i class="material-icons">warning</i>
+				{{ end }}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row">Storage</th>
+			{{ range $device.storage }}
+			<td>
+				{{ .size_mb }}MB {{ if ne .type "unknown" }}({{ .type }}){{ end }}
+			</td>
+			{{ end }}
+		</tr>
+		<tr>
+			<th scope="row">Ethernet</th>
+			{{ range $device.ethernet }}
+			<td>
+				{{ .port_count }}x
+				{{ .speed_mbit }}Mbit
+				{{ if .function  }}({{ .function }}){{ end }}
+			</td>
+			{{ end }}
+		</tr>
+		<tr>
+			<th scope="row">WiFi</th>
+			{{ range $device.wifi }}
+			<td>
+				{{ .freq_ghz}}GHz
+				({{ delimit .protocol "/" }})
+				</br>
+				{{ .hardware }}
+				</br>
+				{{ .driver }} driver
+			</td>
+			{{ end }}
+		</tr>
+		{{ if $device.usb }}
+		<tr>
+			<th scope="row">USB</th>
+			<td>{{ $device.usb_ports }}</td>
+		</tr>
+		{{ end }}
+		{{ if $device.bootloader }}
+		<tr>
+			<th scope="row">Bootloader</th>
+			<td>{{ $device.bootloader }}</td>
+		</tr>
+		{{ end }}
+		{{ if $device.power_supply }}
+		<tr>
+			<th scope="row">Power Supply</th>
+			<td>
+				{{ $device.power_supply.type }}
+				{{ $device.power_supply.volt }}V @
+				{{ $device.power_supply.ampere }}A
+			</td>
+		</tr>
+		{{ end }}
+		<tr>
+			<th scope="row">Serial</th>
+			<td>
+				{{ $device.serial }}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row">JTAG</th>
+			<td>
+				{{ $device.jtag }}
+			</td>
+		</tr>
+	</tbody>
+</table>
+{{ end }}

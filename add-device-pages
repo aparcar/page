@@ -1,0 +1,6 @@
+#!/bin/bash
+
+for device in data/devices/*.yaml; do
+	echo "$device"
+	ln -sf template.md content/devices/$(basename ${device%.*}).md
+done
