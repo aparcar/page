@@ -1,6 +1,6 @@
 {{ define "main" }}
   <h1>OpenWrt Devices</h1>
   {{ range $device, $data := .Site.Data.devices }}
-  <p><a href="/devices/{{ $device }}/">{{ .vendor }} {{ .model }} {{ .variant}}</a></p>
+  <p><a href="devices/{{ $device }}/">{{ .vendor }} {{ .model }} {{ .variant}}</a></p>
   {{ end }}
 {{ end }}
